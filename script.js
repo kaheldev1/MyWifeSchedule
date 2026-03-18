@@ -80,14 +80,24 @@ function renderFullRoster() {
     while (tempDate <= END_DATE) {
         const current = new Date(tempDate);
         const shiftData = getShiftData(current);
+        const info = SHIFTS[shiftData.key]; 
         const item = document.createElement('div');
         item.className = 'grid-item';
-        if (current.toDateString() === todayStr) item.classList.add('today');
+        item.style.backgroundColor = `${info.color}33`; 
+        item.style.borderColor = info.color; 
+        item.style.borderWidth = "1px";
+        item.style.borderStyle = "solid";
+
+        if (current.toDateString() === todayStr) {
+            item.classList.add('today');
+            item.style.borderWidth = "3px";
+        }
 
         item.innerHTML = `
-            <span style="font-weight:600">${current.getDate()}</span>
-            <div class="grid-dot" style="background:${SHIFTS[shiftData.key].color}"></div>
+            <span style="font-weight:700; color: ${info.color}">${current.getDate()}</span>
+            <span style="font-size: 0.6rem; font-weight: 800; color: ${info.color}">${shiftData.key}</span>
         `;
+        
         grid.appendChild(item);
         tempDate.setDate(tempDate.getDate() + 1);
     }
