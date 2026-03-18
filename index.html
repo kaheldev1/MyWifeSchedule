@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Duty App | A. Trillanes</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="mobile-ui">
+    <main class="app-content">
+        
+        <div id="homeView" class="view active">
+            <header class="app-header">
+                <div class="header-top-row">
+                    <div class="user-greet">
+                        <p>Good day,</p>
+                        <h1>Allana Allysa Trillanes</h1>
+                    </div>
+                    <div class="header-action">
+                        <button class="icon-btn quote-btn" onclick="showMotivation()">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                                <path d="M9 21H15M9 18H15M12 3C14.7614 3 17 5.23858 17 8C17 9.87322 15.9687 11.5036 14.4542 12.3682C13.5681 12.8712 13 13.8443 13 14.8966V16H11V14.8966C11 13.8443 10.4319 12.8712 9.5458 12.3682C8.03133 11.5036 7 9.87322 7 8C7 5.23858 9.23858 3 12 3Z" stroke="#f1c40f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 3V2M16.5 4.5L17.5 3.5M19.5 8H20.5M16.5 11.5L17.5 12.5M7.5 11.5L6.5 12.5M4.5 8H3.5M7.5 4.5L6.5 3.5" stroke="#f1c40f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="dept-chip">Medtech</div>
+            </header>
+
+            <section class="current-duty-section">
+                <div id="mainDutyCard" class="glass-card">
+                    <p id="selectedDateLabel" class="label">DUTY FOR TODAY</p>
+                    <h2 id="displayShiftLetter" class="shift-display">-</h2>
+                    <h3 id="displayShiftName">SELECT DATE</h3>
+                    <p id="displayShiftTime" class="time-range">Shift Hours</p>
+                    <div id="stationDisplay" class="station-tag">Station: --</div>
+                </div>
+            </section>
+
+            <section class="schedule-preview">
+                <div class="section-title">
+                    <h3 style="margin-left: 25px;">March - April 2026</h3>
+                </div>
+                <div class="horizontal-calendar" id="calendarScroll"></div>
+            </section>
+        </div>
+
+        <div id="calendarView" class="view">
+            <header class="app-header">
+                <h1>Calendar</h1>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">March - April 2026</p>
+            </header>
+            
+            <div class="calendar-grid" id="fullRosterGrid"></div>
+
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <span class="dot" style="background: #3498db"></span>
+                    <div class="legend-info"><strong>M</strong> <p>(6AM-2PM)</p></div>
+                </div>
+                <div class="legend-item">
+                    <span class="dot" style="background: #f1c40f"></span>
+                    <div class="legend-info"><strong>E</strong> <p>(2PM-10PM)</p></div>
+                </div>
+                <div class="legend-item">
+                    <span class="dot" style="background: #8e44ad"></span>
+                    <div class="legend-info"><strong>N</strong> <p>(10PM-6AM)</p></div>
+                </div>
+                <div class="legend-item">
+                    <span class="dot" style="background: #555555"></span>
+                    <div class="legend-info"><strong>O</strong> <p>Off Duty</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="profileView" class="view">
+            <header class="app-header"><h1>Profile</h1></header>
+            <div class="profile-container">
+                <div class="profile-card">
+                    <div class="profile-info-content">
+                        <div class="profile-avatar">
+                            <img src="img/allana2.jpg" alt="User Profile" class="avatar-img">
+                        </div>
+                        <h2>Allana Allysa Trillanes</h2>
+                        <p class="role-text">Medical Technology Intern</p>
+                        <div class="dept-tag">NU | Hematology Dept</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="quoteModal" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3L13.22 8.78L19 10L13.22 11.22L12 17L10.78 11.22L5 10L10.78 8.78L12 3Z" fill="#f1c40f"/>
+                </svg>
+                <span>DAILY MOTIVATION</span>
+            </div>
+            <div class="modal-body">
+                <p id="quoteText">"You can do it!"</p>
+            </div>
+            <button class="modal-close-btn" onclick="closeModal()">Keep fighting!</button>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchView('home', this)">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="switchView('calendar', this)">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/></svg>
+            <span>Calendar</span>
+        </div>
+        <div class="nav-item" onclick="switchView('profile', this)">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Profile</span>
+        </div>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
