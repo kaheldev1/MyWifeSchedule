@@ -1,6 +1,6 @@
 const START_DATE = new Date(2026, 2, 23); 
-const END_DATE = new Date(2026, 3, 12);   
-const PATTERN = "NOMEON";
+const END_DATE = new Date(2026, 3, 12);  
+const PATTERN = "NOMEONOMEONOMEONOMEON";
 
 const STATIONS = { 7: "HEMA" }; 
 
@@ -13,8 +13,11 @@ const SHIFTS = {
 
 function getShiftData(date) {
     const diff = Math.floor((date - START_DATE) / 86400000);
+    
     if (diff < 0) return { key: 'O', station: "N/A" };
-    return { key: PATTERN[diff % 6], station: STATIONS[7] };
+    
+    const shiftKey = PATTERN[diff % PATTERN.length]; 
+    return { key: shiftKey, station: STATIONS[7] || "HEMA" };
 }
 
 const quotes = [
