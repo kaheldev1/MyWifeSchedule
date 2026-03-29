@@ -12,16 +12,22 @@ const SHIFTS = {
 };
 
 function getShiftData(date) {
-    const diff = Math.floor((date - START_DATE) / 86400000);
+    const d1 = new Date(START_DATE.getFullYear(), START_DATE.getMonth(), START_DATE.getDate());
+    const d2 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     
-    if (diff < 0) return { key: 'O', station: "N/A" };
+    const diffTime = d2 - d1;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     
-    const shiftKey = PATTERN[diff % PATTERN.length]; 
+    if (diffDays < 0 || diffDays >= PATTERN.length) {
+        return { key: 'O', station: "OFF" };
+    }
+    
+    const shiftKey = PATTERN[diffDays]; 
     return { key: shiftKey, station: STATIONS[7] || "HEMA" };
 }
 
 const quotes = [
-    "One successful puncture at a time, Allana! You're providing the answers patients need.",
+    "One successful puncture at a time, baby! You're providing the answers patients need.",
     "Remember: Behind every slide you examine is a life you are helping. Keep going!",
     "Through the long shifts and tired eyes, just remember: You’re a Future RMT in the making.",
     "We may work behind the scenes, but we are the 'Eyes of Medicine.' Stand proud!",
@@ -30,7 +36,7 @@ const quotes = [
     "MedTech interns don't quit; they just recalibrate and try again. Stay strong!",
     "Mastering Hematology today, becoming a licensed professional tomorrow. You got this!",
     "Your hard work in the lab today saves lives tomorrow. Keep your head up!",
-    "The journey is tough, but so are you. Finish your internship strong, Allana!"
+    "The journey is tough, but so are you. Finish your internship strong, baby!"
 ];
 
 function showMotivation() {
@@ -79,21 +85,29 @@ function renderFullRoster() {
         grid.appendChild(h);
     });
 
+    const firstDay = new Date(START_DATE);
+    for (let i = 0; i < firstDay.getDay(); i++) {
+        const empty = document.createElement('div');
+        grid.appendChild(empty);
+    }
+
     let tempDate = new Date(START_DATE);
     while (tempDate <= END_DATE) {
         const current = new Date(tempDate);
         const shiftData = getShiftData(current);
         const info = SHIFTS[shiftData.key]; 
+        
         const item = document.createElement('div');
         item.className = 'grid-item';
-        item.style.backgroundColor = `${info.color}33`; 
-        item.style.borderColor = info.color; 
+        
+        item.style.backgroundColor = `${info.color}22`; 
+        item.style.borderColor = info.color;
         item.style.borderWidth = "1px";
         item.style.borderStyle = "solid";
 
         if (current.toDateString() === todayStr) {
             item.classList.add('today');
-            item.style.borderWidth = "3px";
+            item.style.boxShadow = `0 0 10px ${info.color}`;
         }
 
         item.innerHTML = `
@@ -101,6 +115,11 @@ function renderFullRoster() {
             <span style="font-size: 0.6rem; font-weight: 800; color: ${info.color}">${shiftData.key}</span>
         `;
         
+        item.onclick = () => {
+            updateMainDisplay(current);
+            switchView('home', document.querySelector('.nav-item')); 
+        };
+
         grid.appendChild(item);
         tempDate.setDate(tempDate.getDate() + 1);
     }
